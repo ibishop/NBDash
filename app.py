@@ -3,7 +3,7 @@ import pandas as pd
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from utils.mapbox import figure_factory
+from utils.mapbox import figure_factory,figure_data
 from utils.dash import year_slider
 from utils.cleaning import filter_year
 from dash.dependencies import Input, Output
@@ -15,7 +15,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 all_data = pd.read_csv("temp.csv")
 data = filter_year(all_data, 2001 )
 fig = figure_factory(data,'graph_income')
-
+fig.update_layout(editrevision=True)
 
 
 # Define Application
@@ -34,8 +34,7 @@ app.layout = html.Div([
 def update_figure(selected_year):
 
     data = filter_year(all_data,selected_year)
-    fig = figure_factory(data,'graph_income')
-
+    fig.update(data=figure_data(data,'graph_income'))
     return fig
 
 
