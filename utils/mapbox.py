@@ -21,7 +21,7 @@ def figure_factory(data, topic, geo=None, **kwargs):
 
     Basic Mapbox for displaying New Brunswick Data
     :param data: A pandas DataFrame,
-    :param topic: A ColumnName,
+    :param topic: A Column Name in data,
     :param geo: A GeoJSON FeatureCollection,
     :return: fig: Plotly MapBox
     """
@@ -48,3 +48,20 @@ def figure_factory(data, topic, geo=None, **kwargs):
 
     return fig
 
+
+def figure_data(data, topic, **kwargs):
+    """Returns solely the data component from figure
+
+    :param data: dataframe
+    :param topic: column_
+    :param kwargs:
+    :return:
+    """
+
+    params = DEFAULT_PARAMS.copy()
+
+    for key, value in kwargs.items():
+        params[key] = value
+    params['color'] = topic
+
+    return px.scatter_mapbox(data, **params).data
