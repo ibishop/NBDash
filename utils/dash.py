@@ -1,4 +1,5 @@
 import dash_core_components as dcc
+import dash_html_components as html
 
 
 def year_slider(year_column):
@@ -16,6 +17,11 @@ def year_slider(year_column):
         id="year-slider"
     )
 
+def print_selection(point):
+
+
+    return
+
 
 def buttons(columns):
     """
@@ -23,4 +29,8 @@ def buttons(columns):
     :param columns: str array columns of a data
     :return:
     """
-    return
+    return dcc.Dropdown(
+                id='selected-column',
+                options=[{'label': i, 'value': i} for i in columns],
+                value=columns[0]
+            )
