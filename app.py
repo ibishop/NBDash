@@ -15,27 +15,42 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 all_data = pd.read_csv("temp.csv")
 data = filter_year(all_data, 2001 )
 fig = figure_factory(data,'graph_income')
-fig.update_layout(editrevision=True)
+fig.update_layout(clickmode='event+select')
 
 
 # Define Application
 app = dash.Dash(external_stylesheets=external_stylesheets)
 app.layout = html.Div([
-    html.H1("NB Well Being Dashboard"),
+    html.H1("NB Well-Being Dashboard"),
     html.Div([
-        html.Div(dcc.Graph(id='map', figure=fig)),
-        html.Div(year_slider(all_data.year),id='map-slider')
-    ],style={'height': 500 , 'width': 700})
+
+        html.Div([
+            html.Div(),
+            html.Div(dcc.Graph(id='map', figure=fig,config={'scrollZoom': True})),
+            html.Div(year_slider(all_data.year))
+        ], style={'height': 500, 'width': 700}),
+
+        html.Div([
+            html.Div(id='selected-data')
+        ], style={'height': 500, 'width': 700})
+    ],style={'columnCount': 2})
 ])
 
 @app.callback(
     Output('map', 'figure'),
-    Input('year-slider', 'value'))
+    [Input('year-slider', 'value')])
 def update_figure(selected_year):
 
     data = filter_year(all_data,selected_year)
-    fig.update(data=figure_data(data,'graph_income'))
+    fig.update(data=figure_data(data,topic="graph_income"))
     return fig
+
+@app.callback(
+    Output('selected-data', 'children'),
+    [Input('map', 'selectedData')])
+def select_point(points):
+    return str(points)
+
 
 
 app.run_server(debug=True, use_reloader=False)

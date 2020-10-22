@@ -4,8 +4,8 @@ import dash_core_components as dcc
 def year_slider(year_column):
     """
 
-    :param year_column:
-    :return:
+    :param year_column: Pandas Series
+    :return: Dash Slider component, loaded with appropriate values
     """
     return dcc.Slider(
         min=year_column.min(),
@@ -15,3 +15,12 @@ def year_slider(year_column):
         step=None,
         id="year-slider"
     )
+
+
+def buttons(columns):
+    """
+
+    :param columns: str array columns of a data
+    :return:
+    """
+    return
