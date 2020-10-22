@@ -11,9 +11,7 @@ DEFAULT_PARAMS = dict(
     size='log_std',
     size_max=25,
     opacity=0.8,
-    zoom=7,
-    height=500,
-    width=500,
+    zoom=5,
     hover_name='Geography'
 )
 
@@ -49,3 +47,4 @@ def figure_factory(data, topic, geo=None, **kwargs):
     fig.update_layout(mapbox_style="carto-positron")
 
     return fig
+
