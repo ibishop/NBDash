@@ -45,7 +45,7 @@ def figure_factory(data, topic, geo=None, **kwargs):
 
         )
     fig.update_layout(mapbox_style="carto-positron")
-
+    fig.update_layout(uirevision='same')
     return fig
 
 

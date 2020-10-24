@@ -15,7 +15,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 all_data = pd.read_csv("temp.csv")
 data = filter_year(all_data, 2001 )
 fig = figure_factory(data,'graph_income')
-
+fig.update_layout(uirevision='same')
 
 # Define Application
 app = dash.Dash(external_stylesheets=external_stylesheets)
