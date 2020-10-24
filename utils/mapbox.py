@@ -49,19 +49,4 @@ def figure_factory(data, topic, geo=None, **kwargs):
     return fig
 
 
-def figure_data(data, topic, **kwargs):
-    """Returns solely the data component from figure
 
-    :param data: dataframe
-    :param topic: column_
-    :param kwargs:
-    :return:
-    """
-
-    params = DEFAULT_PARAMS.copy()
-
-    for key, value in kwargs.items():
-        params[key] = value
-    params['color'] = topic
-
-    return px.scatter_mapbox(data, **params).data

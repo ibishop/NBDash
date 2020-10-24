@@ -42,7 +42,6 @@ app.layout = html.Div([
 def update_figure(selected_year,column):
 
     data = filter_year(all_data,selected_year)
-    #fig.update(data=figure_data(data,topic=topic))
     fig = figure_factory(data,column)
 
 
