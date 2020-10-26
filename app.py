@@ -28,7 +28,7 @@ app.layout = html.Div([
             html.Div(buttons( [ x for x in data.columns[3:] if "graph" in x]),id='buttons'),
             html.Div(dcc.Graph(id='map', figure=fig,config={'scrollZoom': True})),
             html.Div(year_slider(all_data.year))
-        ], style={'height': 700, 'width': 650}),
+        ], style={'height': 700, 'paddingRight': '0.5cm'}),
 
         html.Div([
             html.Div(geography_searchbar(data['Geography']), id='geo-bar'),
@@ -42,12 +42,20 @@ app.layout = html.Div([
 @app.callback(
     Output('map', 'figure'),
     [Input('year-slider', 'value'),
-     Input('selected-column','value')])
-def update_figure(selected_year,column):
+     Input('selected-column','value'),
+     Input('map','selectedData')])
+def update_figure(selected_year,column,selection):
 
-    data = filter_year(all_data,selected_year)
+    data = filter_year(all_data, selected_year)
     fig = figure_factory(data,column)
 
+    print("PRE")
+    if selection:
+
+        indicies = [ x['customdata'][0] for x in selection['points']]
+        temp = data.reset_index().CSDUID.isin(indicies)
+        temp = temp[temp].index
+        fig.update_traces(selectedpoints=temp)
 
     return fig
 
@@ -55,14 +63,18 @@ def update_figure(selected_year,column):
     [Output('table', 'columns'),
      Output('table', 'data')],
     [Input('map', 'selectedData'),
-     Input('selected-column','value')])
-def display_selection(selection,column):
-
+     Input('selected-column','value'),
+     Input('sort','value')])
+def display_selection(selection,column,ascending):
     if not selection:
         raise PreventUpdate
 
-    indicies =  [ x['pointIndex'] for x in selection['points'] ]
-    temp = data.loc[indicies]
+    indicies =  [ x['customdata'][0] for x in selection['points'] ]
+    temp = data.loc[ data.CSDUID.isin(indicies)]
+    if ascending == 'False':
+        temp.sort_values([column,'Geography'],ascending=[False,True],inplace=True)
+    else:
+        temp.sort_values([column,'Geography'], ascending=True, inplace=True)
     return table_update(temp,column)
 
 app.run_server(debug=True, use_reloader=False)

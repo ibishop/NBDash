@@ -68,7 +68,8 @@ def sort_menu():
             {'label': 'Descending', 'value': "False"}
         ],
         value = 'True',
-        labelStyle={'display': 'inline-block'}
+        labelStyle={'display': 'inline-block'},
+        id='sort'
     )
 
 def buttons(columns):
