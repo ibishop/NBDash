@@ -12,7 +12,8 @@ DEFAULT_PARAMS = dict(
     size_max=25,
     opacity=0.8,
     zoom=5,
-    hover_name='Geography'
+    hover_name='Geography',
+    custom_data=['CSDUID']
 )
 
 
@@ -34,7 +35,6 @@ def figure_factory(data, topic, geo=None, **kwargs):
     params['color'] = topic
 
     fig = px.scatter_mapbox(data, **params)
-
     if geo:
         fig.update_layout(
             mapbox={'layers': [{
